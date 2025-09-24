@@ -8,7 +8,7 @@ Django-приложение для интернет-магазина Skystore с
 
 1. Клонируйте репозиторий:
 ```bash
-git clone <URL_репозитория>
+git clone https://github.com/moldique/starter_project
 cd starter_project
 ```
 
@@ -77,4 +77,3 @@ starter_project/
 ## Лицензия:
 
 MIT
-
