@@ -1,11 +1,80 @@
-﻿# Starter Project
+﻿# Django-проект Skystore
 
-Команды:
+## Описание:
 
-- Установка: `poetry install`
-- Запуск CLI: `poetry run starter-project hello`
-- Тесты: `poetry run pytest -q`
-- Линт/формат: `poetry run ruff check . && poetry run black .`
- - Линт/формат: `poetry run flake8 . && poetry run black .`
-- Типы: `poetry run mypy src`
+Django-приложение для интернет-магазина Skystore с каталогом товаров и формой обратной связи.
+
+## Установка:
+
+1. Клонируйте репозиторий:
+```bash
+git clone <URL_репозитория>
+cd starter_project
+```
+
+2. Установите зависимости:
+```bash
+poetry install
+```
+
+3. Примените миграции:
+```bash
+poetry run python manage.py migrate
+```
+
+4. Запустите сервер:
+```bash
+poetry run python manage.py runserver
+```
+
+## В проекте реализованы следующие функции:
+
+1. **Django-приложение `catalog`** - основное приложение для каталога товаров
+2. **HTML-шаблоны с Bootstrap** - адаптивная верстка для главной страницы и контактов
+3. **Форма обратной связи** - обработка POST-запросов с валидацией и сообщениями
+4. **Маршрутизация** - настройка URL-адресов для главной страницы и контактов
+5. **Статические файлы** - подключение Bootstrap через CDN
+
+## Структура проекта:
+
+```
+starter_project/
+├── catalog/                 # Django-приложение
+│   ├── templates/          # HTML-шаблоны
+│   │   └── catalog/
+│   │       ├── home.html   # Главная страница
+│   │       └── contacts.html # Страница контактов
+│   ├── views.py            # Контроллеры
+│   ├── urls.py            # Маршруты приложения
+│   └── models.py           # Модели данных
+├── config/                 # Настройки Django
+│   ├── settings.py         # Конфигурация проекта
+│   └── urls.py             # Основные маршруты
+├── manage.py               # Управление Django
+└── pyproject.toml          # Зависимости Poetry
+```
+
+## Доступные страницы:
+
+- **Главная страница**: http://127.0.0.1:8000/ - каталог товаров Skystore
+- **Контакты**: http://127.0.0.1:8000/contacts/ - форма обратной связи
+
+## Технологии:
+
+- **Django 5.1** - веб-фреймворк
+- **Bootstrap 5.3** - CSS-фреймворк для стилизации
+- **Poetry** - управление зависимостями
+- **SQLite** - база данных
+
+## Команды разработки:
+
+- **Запуск сервера**: `poetry run python manage.py runserver`
+- **Проверка кода**: `poetry run flake8 .`
+- **Форматирование**: `poetry run black .`
+- **Проверка типов**: `poetry run mypy .`
+- **Тесты**: `poetry run pytest`
+
+## Лицензия:
+
+MIT
 
