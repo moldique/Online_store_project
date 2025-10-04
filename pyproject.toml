@@ -5,12 +5,14 @@ description = "Starter project"
 authors = ["Starter <starter@example.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{ include = "starter_project", from = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.14"
 typer = "^0.12.5"
 django = "^5.1"
+psycopg2-binary = "^2.9.9"
+python-decouple = "^3.8"
+Pillow = "^10.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
