@@ -1,11 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
+from .models import Product
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'catalog/home.html')
+    """Контроллер главной страницы с отображением товаров"""
+    products = Product.objects.all()
+    return render(request, 'catalog/home.html', {'products': products})
+
+def product_detail(request, pk):
+    """Контроллер для отображения страницы товара"""
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'catalog/product_detail.html', {'product': product})
 
 def contacts(request):
     if request.method == 'POST':
