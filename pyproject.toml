@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "starter-project"
+version = "0.1.0"
+description = "Starter project"
+authors = ["Starter <starter@example.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.14"
+typer = "^0.12.5"
+django = "^5.1"
+psycopg2-binary = "^2.9.9"
+python-decouple = "^3.8"
+Pillow = "^10.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+pytest-cov = "^5.0.0"
+black = "^24.8.0"
+mypy = "^1.11.2"
+flake8 = "^7.1.1"
+
+[tool.poetry.scripts]
+starter-project = "starter_project.cli:app"
+
+[tool.black]
+line-length = 100
+target-version = ["py313"]
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = ["E501", "E203", "W503"]
+exclude = [
+    ".venv",
+    ".vent",
+    "**/.venv/**",
+    "**/.env/**",
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+]
+per-file-ignores = [
+    "__init__.py:F401",
+]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unused_configs = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
