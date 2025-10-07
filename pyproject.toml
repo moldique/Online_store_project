@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "starter-project"
+name = "online-store-project"
 version = "0.1.0"
-description = "Starter project"
+description = "Online Store Project - Django blog and catalog application"
 authors = ["Starter <starter@example.com>"]
 license = "MIT"
 readme = "README.md"
@@ -22,7 +22,7 @@ mypy = "^1.11.2"
 flake8 = "^7.1.1"
 
 [tool.poetry.scripts]
-starter-project = "starter_project.cli:app"
+online-store-project = "starter_project.cli:app"
 
 [tool.black]
 line-length = 100

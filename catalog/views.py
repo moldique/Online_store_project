@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.views import View
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import Product
+from .forms import ProductForm
 
 # CBV реализации
 
@@ -36,3 +38,23 @@ class ContactsView(TemplateView):
 
         # Перерисовываем ту же страницу, чтобы показать сообщения
         return render(request, self.template_name)
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('index')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('index')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('index')
