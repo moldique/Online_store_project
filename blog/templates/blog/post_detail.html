@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}{{ post.title }} — Блог{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <a href="{% url 'blog:post_list' %}">&larr; Ко всем записям</a>
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h1 class="mb-0">{{ post.title }}</h1>
+    <div>
+      <a class="btn btn-sm btn-outline-secondary" href="{% url 'blog:post_edit' post.pk %}">Редактировать</a>
+      <a class="btn btn-sm btn-outline-danger" href="{% url 'blog:post_delete' post.pk %}">Удалить</a>
+    </div>
+  </div>
+  <p class="text-muted">Создано: {{ post.created_at|date:'d.m.Y H:i' }} | Просмотры: {{ post.views_count }}</p>
+  {% if post.preview %}
+    <img src="{{ post.preview.url }}" class="img-fluid mb-3" alt="{{ post.title }}">
+  {% endif %}
+  <div class="lead">{{ post.content|linebreaks }}</div>
+</div>
+{% endblock %}
+
