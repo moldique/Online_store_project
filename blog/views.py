@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import BlogPost
 
@@ -21,7 +22,7 @@ class BlogPostDetailView(DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         # Инкремент счётчика просмотров
-        BlogPost.objects.filter(pk=obj.pk).update(views_count=models.F('views_count') + 1)
+        BlogPost.objects.filter(pk=obj.pk).update(views_count=F('views_count') + 1)
         obj.refresh_from_db(fields=['views_count'])
         return obj
 
