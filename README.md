@@ -122,6 +122,7 @@ Django-приложение для интернет-магазина Skystore с
 ### 1. Клонирование репозитория
 ```bash
 git clone https://github.com/moldique/starter_project
+
 cd starter_project
 ```
 
