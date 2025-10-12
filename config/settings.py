@@ -40,6 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'blog',
+    'users',
+]
+
+# Настройка модели пользователя
+AUTH_USER_MODEL = 'users.User'
+
+# Настройка бэкендов аутентификации
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailBackend',  # Кастомный бэкенд для аутентификации по email
+    'django.contrib.auth.backends.ModelBackend',  # Стандартный бэкенд
 ]
 
 MIDDLEWARE = [
@@ -132,3 +142,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email settings (для разработки)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Вывод в консоль для разработки
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'moldique@yandex.ru'
+EMAIL_HOST_PASSWORD = 'vvnafljlsjleyaqq'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Site settings
+SITE_URL = 'http://localhost:8000'
