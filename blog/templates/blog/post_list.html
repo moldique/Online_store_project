@@ -5,7 +5,9 @@
 {% block content %}
 <div class="container py-4">
   <h1 class="mb-3">Блог</h1>
-  <a class="btn btn-primary mb-3" href="{% url 'blog:post_create' %}">Новая запись</a>
+  {% if user.is_authenticated and perms.blog.can_manage_blog %}
+    <a class="btn btn-primary mb-3" href="{% url 'blog:post_create' %}">Новая запись</a>
+  {% endif %}
   <div class="row">
     {% for post in posts %}
     <div class="col-md-4">

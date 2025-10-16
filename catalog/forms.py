@@ -21,6 +21,7 @@ class ProductForm(forms.ModelForm):
             'price',
             'image',
             'is_available',
+            'is_published',
         )
 
     def __init__(self, *args, **kwargs):
