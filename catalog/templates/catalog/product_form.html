@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Редактировать товар{% else %}Создать товар{% endif %} - Skystore{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-3">{% if form.instance.pk %}Редактировать товар{% else %}Новый товар{% endif %}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.non_field_errors }}
+        </div>
+        <div class="mb-3">{{ form.name.label_tag }} {{ form.name }}</div>
+        <div class="mb-3">{{ form.description.label_tag }} {{ form.description }}</div>
+        <div class="mb-3">{{ form.category.label_tag }} {{ form.category }}</div>
+        <div class="mb-3">
+            {{ form.price.label_tag }} {{ form.price }}
+            {% if form.price.errors %}
+                <div class="text-danger small">{{ form.price.errors|striptags }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.image.label_tag }} {{ form.image }}
+            {% if form.image.errors %}
+                <div class="text-danger small">{{ form.image.errors|striptags }}</div>
+            {% endif %}
+        </div>
+        <div class="form-check mb-3">
+            {{ form.is_available }} {{ form.is_available.label_tag }}
+        </div>
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+        <a class="btn btn-outline-secondary" href="{% url 'index' %}">Отмена</a>
+    </form>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,94 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}{{ product.name }} - Skystore{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+            {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 300px;">
+                    <span class="text-muted">Изображение отсутствует</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1 class="display-4">{{ product.name }}</h1>
+            <p class="lead">{{ product.description }}</p>
+            <div class="mb-3">
+                <h3 class="text-primary">Цена: {{ product.price }} руб.</h3>
+            </div>
+            <div class="mb-3">
+                <strong>Категория:</strong> {{ product.category.name }}
+            </div>
+            <div class="mb-3">
+                <strong>Статус:</strong> 
+                {% if product.is_available %}
+                    <span class="text-success">В наличии</span>
+                {% else %}
+                    <span class="text-danger">Нет в наличии</span>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <strong>Публикация:</strong> 
+                {% if product.is_published %}
+                    <span class="text-success">Опубликован</span>
+                {% else %}
+                    <span class="text-warning">Не опубликован</span>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <strong>Владелец:</strong> 
+                {% if product.owner %}
+                    {{ product.owner.username }}
+                {% else %}
+                    <span class="text-muted">Не указан</span>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <strong>Дата создания:</strong> {{ product.created_at|date:"d.m.Y H:i" }}
+            </div>
+            <div class="mb-3">
+                <strong>Последнее обновление:</strong> {{ product.updated_at|date:"d.m.Y H:i" }}
+            </div>
+            <div class="mt-4">
+                <a href="/" class="btn btn-outline-secondary">← Вернуться к каталогу</a>
+                {% if product.is_available %}
+                    <button type="button" class="btn btn-primary">Купить</button>
+                {% endif %}
+                
+                {% if user.is_authenticated %}
+                    <hr>
+                    <div class="btn-group" role="group">
+                        {% if product.owner == user %}
+                            <a href="{% url 'product_update' product.pk %}" class="btn btn-warning btn-sm">
+                                Редактировать
+                            </a>
+                        {% endif %}
+                        
+                        {% if perms.catalog.can_unpublish_product and product.is_published %}
+                            <form method="post" action="{% url 'product_unpublish' product.pk %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-warning btn-sm" 
+                                        onclick="return confirm('Отменить публикацию этого продукта?')">
+                                    Отменить публикацию
+                                </button>
+                            </form>
+                        {% endif %}
+                        
+                        {% if product.owner == user or perms.catalog.delete_product %}
+                            <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger btn-sm">
+                                Удалить
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
