@@ -7,6 +7,10 @@ from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from .models import Product
 from .forms import ProductForm
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from .services import get_products_by_category
+from django.core.cache import cache
 
 # CBV реализации
 
@@ -16,11 +20,17 @@ class ProductListView(ListView):
     template_name = 'catalog/home.html'
     context_object_name = 'products'
 
+
     def get_queryset(self):
-        # Показываем только опубликованные продукты
-        return Product.objects.filter(is_published=True)
+        
+        cache_key = 'product_list'
+        products = cache.get(cache_key)
+        if products is None:
+            products = super().get_queryset()
+            cache.set(cache_key, products, 60 * 5)
+        return products
 
-
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
     """Страница детального просмотра товара."""
     model = Product
@@ -112,3 +122,17 @@ class ProductUnpublishView(LoginRequiredMixin, View):
         
         messages.success(request, f'Публикация продукта "{product.name}" отменена.')
         return redirect('index')
+
+class CategoryProductsView(ListView):
+    """Представление для отображения списка продуктов по категории"""
+    model = Product
+    template_name = 'catalog/category_products.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        print("CategoryProductsView вызван!")
+        # Получаем ID категории из URL
+        category_id = self.kwargs.get('category_id')
+        print(f"Category ID: {category_id}")
+        # Возвращаем список продуктов по категории
+        return Product.objects.filter(category_id=category_id, is_published=True)
