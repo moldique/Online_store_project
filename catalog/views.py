@@ -9,8 +9,8 @@ from .models import Product
 from .forms import ProductForm
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
-from .services import get_products_by_category
 from django.core.cache import cache
+from .services import get_products_by_category
 
 # CBV реализации
 
@@ -130,9 +130,7 @@ class CategoryProductsView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        print("CategoryProductsView вызван!")
         # Получаем ID категории из URL
         category_id = self.kwargs.get('category_id')
-        print(f"Category ID: {category_id}")
-        # Возвращаем список продуктов по категории
-        return Product.objects.filter(category_id=category_id, is_published=True)
+        # Используем сервисную функцию с кэшированием
+        return get_products_by_category(category_id)
