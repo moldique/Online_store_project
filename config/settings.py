@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-your-secret-key-here'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog',
+    'blog',
+    'users',
+]
+
+# Настройка модели пользователя
+AUTH_USER_MODEL = 'users.User'
+
+# Настройка бэкендов аутентификации
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailBackend',  # Кастомный бэкенд для аутентификации по email
+    'django.contrib.auth.backends.ModelBackend',  # Стандартный бэкенд
 ]
 
 MIDDLEWARE = [
@@ -118,9 +130,31 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Media files (Images, Videos, etc.)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Email settings (для разработки)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Вывод в консоль для разработки
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'moldique@yandex.ru'
+EMAIL_HOST_PASSWORD = 'vvnafljlsjleyaqq'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+# Site settings
+SITE_URL = 'http://localhost:8000'
+
+# Cache configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+    }
+}
